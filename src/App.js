@@ -9,7 +9,8 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={ Home } />
-          <Route path="/board" component={ Board } />
+          <Route path="/board/:id" component={ Board } />
+          <Route path="/react-trello" component={ Home } />
         </Switch>
       </Router> 
     </div>
