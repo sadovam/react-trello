@@ -8,3 +8,7 @@ export const getBoards = () => {
 export const createBoard = (title) => {
   return instance.post(api.boards, {title: title});
 }
+
+export const deleteBoard = (id) => {
+  return instance.delete(api.boards + id);
+}

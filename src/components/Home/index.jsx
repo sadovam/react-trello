@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { getBoards, createBoard } from '../../api/home';
+import { getBoards, createBoard, deleteBoard } from '../../api/home';
 import BoardCreator from '../BoardCreator';
+import BoardTmb from '../BoardTmb';
 
 export default class Home extends React.Component {
   
@@ -63,8 +63,26 @@ export default class Home extends React.Component {
     });
   }
 
+  delBoard = (id) => {
+    this.setState({isLoading: true});
+    
+    deleteBoard(id)
+    .finally(this.setState({
+      isLoading: false,
+    }))
+    .then((res) => {
+      const newBoardsList = this.state.boards.filter(board => board.id !== id);
+      this.setState({
+        boards: [...newBoardsList],
+      });
+    })
+    .catch((err) => {
+      this.setState({gotError: true});
+    });
+  }
+
   makeBoards() {
-    return this.state.boards.map(board => <Link key={board.id} to={`/board/${board.id}`}>{board.title}</Link>);
+    return this.state.boards.map(board => <BoardTmb key={board.id} board={board} onClickFunc={this.delBoard}/>);
   }
 
   render() {
