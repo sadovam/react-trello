@@ -1,3 +1,4 @@
-export default function Board() {
-  return <h1>Board page</h1>;
+export default function Board(props) {
+  const { id } = props.match.params;
+  return <h1>Board page number {id} </h1>;
 };
