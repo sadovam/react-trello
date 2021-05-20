@@ -2,12 +2,15 @@ import React from 'react';
 import { getBoards, createBoard, deleteBoard } from '../../api/home';
 import BoardCreator from '../BoardCreator';
 import BoardTmb from '../BoardTmb';
+import ErrorMessageBox from '../ErrorMessageBox';
 
 export default class Home extends React.Component {
   
   state = {
-    isLoading: false,
+    isLoading: true,
     gotError: false,
+    errorTitle: '',
+    errorMessage: '',
     gotBoards: false,
     boards: [],
     isBoardCreatorVisible: false,
@@ -15,10 +18,6 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      isLoading: true
-    });
-
     getBoards()
     .finally(this.setState({isLoading: false}))
     .then(({ boards }) => {
@@ -28,7 +27,7 @@ export default class Home extends React.Component {
       })
     })
     .catch((err) => {
-      this.setState({gotError: true});
+      this.showError('Error while get boards', err.toString() );
     });
      
   }
@@ -59,7 +58,7 @@ export default class Home extends React.Component {
       }));
     })
     .catch((err) => {
-      this.setState({gotError: true});
+      this.showError('Error while create board', err.toString());
     });
   }
 
@@ -77,9 +76,23 @@ export default class Home extends React.Component {
       });
     })
     .catch((err) => {
-      this.setState({gotError: true});
+      this.showError('Error while delete board', err.toString());
     });
   }
+
+  showError = (title, message) => {
+    this.setState({
+      gotError: true, 
+      errorTitle: title,
+      errorMessage: message,
+    });
+    setTimeout(() => this.setState({
+      gotError: false, 
+      errorTitle: '',
+      errorMessage: '',
+    }), 3000
+    );
+  } 
 
   makeBoards() {
     return this.state.boards.map(board => <BoardTmb key={board.id} board={board} onClickFunc={this.delBoard}/>);
@@ -89,7 +102,9 @@ export default class Home extends React.Component {
     return (
       <>
         <h1>My boards</h1>
-        {this.state.isLoading && <h2>Loading...</h2>}
+        <p>{this.state.isLoading}</p>
+        {this.state.isLoading && <p>Loading...</p>}
+        
         {
           this.state.gotBoards && 
           <div>
@@ -97,7 +112,15 @@ export default class Home extends React.Component {
             <button onClick={this.showBoardCreator}>Add board</button>
           </div> 
         }
-        {this.state.gotError && <h2>Something went wrong...</h2>}
+        
+        {
+          this.state.gotError && 
+          <ErrorMessageBox 
+            title={this.state.errorTitle} 
+            message={this.state.errorMessage}
+          />
+        }
+        
         {
           this.state.isBoardCreatorVisible && 
           <BoardCreator 

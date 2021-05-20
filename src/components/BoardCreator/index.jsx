@@ -1,5 +1,4 @@
 export default function BoardCreator({title, onChangeFunc, onSubmitFunc}) {
-  
   return (
     <form onSubmit={onSubmitFunc}>
       <label htmlFor="newTitle">New board title</label>
