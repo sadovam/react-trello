@@ -6,7 +6,7 @@ export const getBoards = () => {
 }
 
 export const createBoard = (title) => {
-  return instance.post(api.boards, {title: title});
+  return instance.post(api.boards, {title});
 }
 
 export const deleteBoard = (id) => {

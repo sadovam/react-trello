@@ -1,0 +1,28 @@
+.board-tmb {
+  position: relative;
+  padding: 20px 30px;
+  margin: 10px;
+  border-radius: 4px;
+  background-color: var(--bg1);
+}
+
+.board-tmb__btn {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  border: none;
+  background-color: transparent;
+  width: 1em;
+  cursor: pointer;
+  color: var(--fg2);
+}
+
+.board-tmb__link {
+  text-decoration: none;
+  color: var(--fg1);
+}
+
+.board-tmb:hover {
+  background-color: var(--bg2);
+  box-shadow: 1px 1px 1px var(--shadow);
+}

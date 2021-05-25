@@ -1,0 +1,9 @@
+.error__box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 5px 20px;
+  background-color: var(--error);
+  color: var(--fg3);
+}

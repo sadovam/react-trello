@@ -1,0 +1,30 @@
+.home-container {
+  width: 1200px;
+  margin: 0 auto;
+}
+.boards {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.boards__btn {
+  padding: 20px 30px;
+  margin: 10px;
+  border-radius: 4px;
+  background-color: var(--bg2);
+  border: none;
+  cursor: pointer;
+  color: var(--fg2);
+}
+
+.boards__btn:hover {
+  background-color: var(--bg1);
+  color: var(--fg1);
+  box-shadow: 1px 1px 1px var(--shadow);
+}
+
+.boards__title {
+  color: var(--bg1);
+}

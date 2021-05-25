@@ -1,14 +1,18 @@
-export default function BoardCreator({title, onChangeFunc, onSubmitFunc}) {
+import './style.css';
+
+export default function BoardCreator({title, onChangeFunc, onSubmitFunc, onCancelFunc}) {
   return (
-    <form onSubmit={onSubmitFunc}>
-      <label htmlFor="newTitle">New board title</label>
-      <input 
-        placeholder="Type new board title here..." 
-        id="newTitle" 
-        value={title}
-        onChange={onChangeFunc}
-        ></input>
-      <button>Add board</button>
-    </form>
+    <div className="add-form__modal" onClick={onCancelFunc}>
+      <form className="add-form" onSubmit={onSubmitFunc} onClick = {event => event.stopPropagation()}>
+        <label className="add-form__title" htmlFor="newTitle">New board title</label>
+        <input className="add-form__input"
+          placeholder="Type new board title here..." 
+          id="newTitle" 
+          value={title}
+          onChange={onChangeFunc}
+          ></input>
+        <button className="add-form__btn">Add board</button>
+      </form>
+    </div>
   )
 }

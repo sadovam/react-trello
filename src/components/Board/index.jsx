@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import './style.css';
+
 export default function Board(props) {
   const { id } = props.match.params;
   return (

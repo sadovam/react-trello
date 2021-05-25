@@ -4,14 +4,12 @@ import BoardCreator from '../BoardCreator';
 import BoardTmb from '../BoardTmb';
 import ErrorMessageBox from '../ErrorMessageBox';
 
+import './style.css';
+
 export default class Home extends React.Component {
   
   state = {
-    isLoading: true,
-    gotError: false,
-    errorTitle: '',
-    errorMessage: '',
-    gotBoards: false,
+    error: {title: '', message: ''},
     boards: [],
     isBoardCreatorVisible: false,
     newTitle: '',
@@ -19,36 +17,35 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     getBoards()
-    .finally(this.setState({isLoading: false}))
     .then(({ boards }) => {
       this.setState({
         boards,
-        gotBoards: true
       })
     })
     .catch((err) => {
-      this.showError('Error while get boards', err.toString() );
+      this.showError('Error while get boards', err.message);
     });
-     
   }
 
   showBoardCreator = () => {
     this.setState({isBoardCreatorVisible: true});
   }
 
+  hideBoardCreator = () => {
+    this.setState({isBoardCreatorVisible: false});
+  }
+
   changeTitleInput = (event) => {
     this.setState({
       newTitle: event.target.value,
-    })
+    });
   }
 
   submitNewBoard = (event) => {
     event.preventDefault();
-    this.setState({isLoading: true});
     
     createBoard(this.state.newTitle)
     .finally(this.setState({
-      isLoading: false,
       isBoardCreatorVisible: false,
     }))
     .then((res) => {
@@ -58,17 +55,12 @@ export default class Home extends React.Component {
       }));
     })
     .catch((err) => {
-      this.showError('Error while create board', err.toString());
+      this.showError('Error while create board', err.message);
     });
   }
 
   delBoard = (id) => {
-    this.setState({isLoading: true});
-    
     deleteBoard(id)
-    .finally(this.setState({
-      isLoading: false,
-    }))
     .then((res) => {
       const newBoardsList = this.state.boards.filter(board => board.id !== id);
       this.setState({
@@ -76,20 +68,16 @@ export default class Home extends React.Component {
       });
     })
     .catch((err) => {
-      this.showError('Error while delete board', err.toString());
+      this.showError('Error while delete board', err.message);
     });
   }
 
   showError = (title, message) => {
     this.setState({
-      gotError: true, 
-      errorTitle: title,
-      errorMessage: message,
+      error: {title, message},
     });
     setTimeout(() => this.setState({
-      gotError: false, 
-      errorTitle: '',
-      errorMessage: '',
+      error: {title: '', message: ''},
     }), 3000
     );
   } 
@@ -100,24 +88,22 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <>
-        <h1>My boards</h1>
-        <p>{this.state.isLoading}</p>
-        {this.state.isLoading && <p>Loading...</p>}
+      <div className="home-container">
+        <h1 className="boards__title">My boards</h1>
         
         {
-          this.state.gotBoards && 
-          <div>
+          this.state.boards.length > 0 && 
+          <div className="boards">
             {this.makeBoards()}
-            <button onClick={this.showBoardCreator}>Add board</button>
+            <button className="boards__btn" onClick={this.showBoardCreator}>Add board</button>
           </div> 
         }
         
         {
-          this.state.gotError && 
+          this.state.error.title && 
           <ErrorMessageBox 
-            title={this.state.errorTitle} 
-            message={this.state.errorMessage}
+            title={this.state.error.title} 
+            message={this.state.error.message}
           />
         }
         
@@ -127,8 +113,10 @@ export default class Home extends React.Component {
             title={this.state.newTitle} 
             onChangeFunc={this.changeTitleInput}
             onSubmitFunc={this.submitNewBoard}
-          />}
-      </>
+            onCancelFunc={this.hideBoardCreator}
+          />
+        }
+      </div>
     );
   }
 };
