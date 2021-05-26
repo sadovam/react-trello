@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  color: var(--bg1);
+  font-size: 1.2em;
 }
 
 .home-link {
@@ -22,15 +24,6 @@
 
 .board-title {
   color: var(--bg1);
-}
-
-.board-title:hover {
-  color: var(--bg2);
-  cursor: pointer;
-}
-
-.board-title__input {
-  box-shadow: 1px 1px 1px var(--shadow);
 }
 
 .lists {

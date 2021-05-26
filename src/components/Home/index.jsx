@@ -45,9 +45,7 @@ export default class Home extends React.Component {
     event.preventDefault();
     
     createBoard(this.state.newTitle)
-    .finally(this.setState({
-      isBoardCreatorVisible: false,
-    }))
+    .finally(this.hideBoardCreator)
     .then((res) => {
       this.setState((state) => ({
           boards: [...state.boards, {id: res.id, title: this.state.newTitle}],

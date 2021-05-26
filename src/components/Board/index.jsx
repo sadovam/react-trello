@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { getBoard, updateBoardTitle } from '../../api/board';
 import List from '../List';
+import EditableTitle from '../EditableTitle';
 
 import './style.css';
 
@@ -15,8 +16,6 @@ export default class Board extends React.Component {
     title: '',
     lists: {},
     users: [],
-    newTitle: '',
-    isBoardTitleEditorVisible: false,
   }
 
   componentDidMount() {
@@ -33,26 +32,12 @@ export default class Board extends React.Component {
     });
   }
   
-  toggleTitleEditor = () => {
-    this.setState((state) => ({isBoardTitleEditorVisible: !state.isBoardTitleEditorVisible}))
-  }
-
-  changeTitleInput = (event) => {
-    this.setState({
-      newTitle: event.target.value,
-    });
-  }
-
-  submitNewTitle = () => {
-    updateBoardTitle(this.boardId, this.state.newTitle)
-    .finally(this.setState({
-      isBoardTitleEditorVisible: false,
-    }))
+  submitNewTitle = (title) => {
+    updateBoardTitle(this.boardId, title)
     .then((res) => {
-      this.setState((state) => ({
-          title: state.newTitle,
-          newTitle: '',
-      }));
+      this.setState({
+          title,
+      });
     })
     .catch((err) => {
       this.showError('Error while update board', err.message);
@@ -60,13 +45,7 @@ export default class Board extends React.Component {
   }
 
   makeLists() {
-    return Object.values(this.state.lists).map(list => <List key={list.id} boardId={this.boardId} list={list} /> );
-  }
-
-  keyUpFunc = (event) => {
-    if (event.code === 'Enter') {
-      this.submitNewTitle();
-    };
+    return Object.values(this.state.lists).map(list => <List key={list.id} boardId={this.boardId} list={list} showError={this.showError}/> );
   }
 
   render() {
@@ -74,20 +53,13 @@ export default class Board extends React.Component {
       <>
         <header className="header">
           <Link className="home-link" to='/'>Home</Link>
-          <h1 className="board-title" onClick={ this.toggleTitleEditor }>{this.state.title}</h1>
-          
-          { 
-            this.state.isBoardTitleEditorVisible && 
-            <input 
-              className="board-title__input input"
-              placeholder="Type new board title here..." 
-              value={this.state.newTitle}
-              onChange={this.changeTitleInput}
-              onBlur={this.submitNewTitle}
-              onKeyUp={this.keyUpFunc}
+          {
+            this.state.title &&
+            <EditableTitle 
+              title={this.state.title} 
+              onSubmitTitle={this.submitNewTitle}
             />
           }
-
         </header>
 
         <div className="lists">

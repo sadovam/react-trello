@@ -1,0 +1,18 @@
+.title__box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+.title {
+  margin: 5px;
+}
+
+.title:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.title__input {
+  box-shadow: 1px 1px 1px var(--shadow);
+}
