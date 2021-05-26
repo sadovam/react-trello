@@ -1,0 +1,31 @@
+.list {
+  min-width: 300px;
+  max-width: 300px;
+  background-color: var(--bg1);
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.list:hover {
+  box-shadow: 2px 2px 2px var(--shadow);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.list-title {
+  color: var(--fg1);
+}
+
+.list-title:hover {
+  color: var(--fg2);
+  cursor: pointer;
+}
+
+.list-title__input {
+  box-shadow: 1px 1px 1px var(--shadow);
+}
