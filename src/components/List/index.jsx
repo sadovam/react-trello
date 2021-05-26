@@ -83,7 +83,7 @@ export default class List extends React.Component {
               onBlur={this.submitNewTitle}
               onKeyUp={this.keyUpFunc}
             /> :
-            <h1 className="list-title" onClick={ this.toggleTitleEditor }>{this.state.title}</h1>
+            <h2 className="list-title" onClick={ this.toggleTitleEditor }>{this.state.title}</h2>
           }
 
         </header>

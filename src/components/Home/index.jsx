@@ -2,14 +2,14 @@ import React from 'react';
 import { getBoards, createBoard, deleteBoard } from '../../api/home';
 import BoardCreator from '../BoardCreator';
 import BoardTmb from '../BoardTmb';
-import ErrorMessageBox from '../ErrorMessageBox';
 
 import './style.css';
 
 export default class Home extends React.Component {
   
+  showError = this.props.showError;
+
   state = {
-    error: {title: '', message: ''},
     boards: [],
     isBoardCreatorVisible: false,
     newTitle: '',
@@ -72,16 +72,6 @@ export default class Home extends React.Component {
     });
   }
 
-  showError = (title, message) => {
-    this.setState({
-      error: {title, message},
-    });
-    setTimeout(() => this.setState({
-      error: {title: '', message: ''},
-    }), 3000
-    );
-  } 
-
   makeBoards() {
     return this.state.boards.map(board => <BoardTmb key={board.id} board={board} onClickFunc={this.delBoard}/>);
   }
@@ -97,14 +87,6 @@ export default class Home extends React.Component {
             {this.makeBoards()}
             <button className="boards__btn" onClick={this.showBoardCreator}>Add board</button>
           </div> 
-        }
-        
-        {
-          this.state.error.title && 
-          <ErrorMessageBox 
-            title={this.state.error.title} 
-            message={this.state.error.message}
-          />
         }
         
         {

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { getBoard, updateBoardTitle } from '../../api/board';
-import ErrorMessageBox from '../ErrorMessageBox';
 import List from '../List';
 
 import './style.css';
@@ -10,9 +9,9 @@ import './style.css';
 export default class Board extends React.Component {
   
   boardId = this.props.match.params.id;
+  showError = this.props.showError;
   
   state = {
-    error: {title: '', message: ''},
     title: '',
     lists: {},
     users: [],
@@ -36,16 +35,6 @@ export default class Board extends React.Component {
   
   toggleTitleEditor = () => {
     this.setState((state) => ({isBoardTitleEditorVisible: !state.isBoardTitleEditorVisible}))
-  }
-
-  showError = (title, message) => {
-    this.setState({
-      error: {title, message},
-    });
-    setTimeout(() => this.setState({
-      error: {title: '', message: ''},
-    }), 3000
-    );
   }
 
   changeTitleInput = (event) => {
@@ -104,15 +93,6 @@ export default class Board extends React.Component {
         <div className="lists">
           {this.makeLists()}
         </div>
-
-
-        {
-          this.state.error.title && 
-          <ErrorMessageBox 
-            title={this.state.error.title} 
-            message={this.state.error.message}
-          />
-        }
       </>
     );
   };
