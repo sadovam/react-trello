@@ -5,7 +5,7 @@ export default function BoardCreator({title, onChangeFunc, onSubmitFunc, onCance
     <div className="add-form__modal" onClick={onCancelFunc}>
       <form className="add-form" onSubmit={onSubmitFunc} onClick = {event => event.stopPropagation()}>
         <label className="add-form__title" htmlFor="newTitle">New board title</label>
-        <input className="add-form__input"
+        <input className="add-form__input input"
           placeholder="Type new board title here..." 
           id="newTitle" 
           value={title}

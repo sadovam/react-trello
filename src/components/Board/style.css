@@ -27,9 +27,8 @@
   color: var(--fg1);
 }
 
-.add-form__input {
-  margin: 10px;
-  color: var(--bg1);
+.board-title__input {
+  box-shadow: 1px 1px 1px var(--shadow);
 }
 
 .add-form__btn {

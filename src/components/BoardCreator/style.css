@@ -28,8 +28,7 @@
 }
 
 .add-form__input {
-  margin: 10px;
-  color: var(--bg1);
+  background-color: var(--fg3);
 }
 
 .add-form__btn {
