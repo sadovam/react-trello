@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { updateList, createCard } from '../../api/board';
+import { validateTitle } from '../../helpers/validator';
 import Creator from '../Creator';
 import EditableTitle from '../EditableTitle';
 
@@ -18,6 +19,11 @@ export default class List extends React.Component {
   }
   
   submitNewTitle = (title) => {
+    const err = validateTitle(title);
+    if(err) {
+      this.showError(...err);
+      return;
+    }
     updateList(this.boardId, this.state.id, title)
     .then((res) => {
       this.setState({ title, });
@@ -28,8 +34,15 @@ export default class List extends React.Component {
   }
 
   createNewCard = (title) => {
+    const err = validateTitle(title);
+    if(err) {
+      this.showError(...err);
+      return;
+    }
+    
     const position = Object.keys(this.state.cards).length;
     const list_id = this.state.id;
+    
     createCard(this.boardId, {title, position, list_id})
     .then((res) => {
       this.setState((state) => ({

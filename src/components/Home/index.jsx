@@ -1,5 +1,6 @@
 import React from 'react';
 import { getBoards, createBoard, deleteBoard } from '../../api/home';
+import { validateTitle } from '../../helpers/validator';
 import BoardCreator from '../BoardCreator';
 import BoardTmb from '../BoardTmb';
 
@@ -23,7 +24,7 @@ export default class Home extends React.Component {
       })
     })
     .catch((err) => {
-      this.showError('Error while get boards', err.message);
+      this.showError('Error while geting boards', err.message);
     });
   }
 
@@ -44,6 +45,12 @@ export default class Home extends React.Component {
   submitNewBoard = (event) => {
     event.preventDefault();
     
+    const err = validateTitle(this.state.newTitle);
+    if(err) {
+      this.showError(...err);
+      return;
+    }
+    
     createBoard(this.state.newTitle)
     .finally(this.hideBoardCreator)
     .then((res) => {
@@ -53,7 +60,7 @@ export default class Home extends React.Component {
       }));
     })
     .catch((err) => {
-      this.showError('Error while create board', err.message);
+      this.showError('Error while creating board', err.message);
     });
   }
 
@@ -66,7 +73,7 @@ export default class Home extends React.Component {
       });
     })
     .catch((err) => {
-      this.showError('Error while delete board', err.message);
+      this.showError('Error while deleting board', err.message);
     });
   }
 

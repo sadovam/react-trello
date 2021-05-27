@@ -7,6 +7,7 @@ import EditableTitle from '../EditableTitle';
 
 import './style.css';
 import Creator from '../Creator';
+import { validateTitle } from '../../helpers/validator';
 
 export default class Board extends React.Component {
   
@@ -39,6 +40,12 @@ export default class Board extends React.Component {
   }
   
   submitNewTitle = (title) => {
+    const err = validateTitle(title);
+    if(err) {
+      this.showError(...err);
+      return;
+    }
+    
     updateBoardTitle(this.boardId, title)
     .then((res) => {
       this.setState({
@@ -46,14 +53,21 @@ export default class Board extends React.Component {
       });
     })
     .catch((err) => {
-      this.showError('Error while update board', err.message);
+      this.showError('Error while updating board', err.message);
     });
   }
 
   createNewList = (title) => {
+    const err = validateTitle(title);
+    if(err) {
+      this.showError(...err);
+      return;
+    }
+    
     const position = Object.keys(this.state.lists).length;
     createList(this.boardId, {title, position})
     .then((res) => {
+      // Reloading board because API doesn't return new list ID
       this.reloadBoard();
     })
     .catch((err) => {

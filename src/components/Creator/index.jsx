@@ -54,9 +54,9 @@ export default class Creator extends React.Component {
         /> 
       }
       
-      <button className="btn" onClick={this.toggleEditor}>{
-        this.state.isEditorVisible ? "Cancel" : this.title
-      }</button>
+      <button className="btn" onClick={this.toggleEditor}>
+      { this.state.isEditorVisible ? "Cancel" : this.title }
+      </button>
       
       </div>
     );
