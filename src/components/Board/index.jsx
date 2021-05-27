@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { getBoard, updateBoardTitle } from '../../api/board';
+import { getBoard, updateBoardTitle, createList } from '../../api/board';
 import List from '../List';
 import EditableTitle from '../EditableTitle';
 
 import './style.css';
+import Creator from '../Creator';
 
 export default class Board extends React.Component {
   
@@ -19,6 +20,10 @@ export default class Board extends React.Component {
   }
 
   componentDidMount() {
+    this.reloadBoard();
+  }
+
+  reloadBoard = () => {
     getBoard(this.boardId)
     .then(({ title, lists, users }) => {
       this.setState({
@@ -26,6 +31,7 @@ export default class Board extends React.Component {
         lists,
         users,
       })
+      console.log(lists);
     })
     .catch((err) => {
       this.showError('Error while get board', err.message);
@@ -44,8 +50,26 @@ export default class Board extends React.Component {
     });
   }
 
+  createNewList = (title) => {
+    const position = Object.keys(this.state.lists).length;
+    createList(this.boardId, {title, position})
+    .then((res) => {
+      this.reloadBoard();
+    })
+    .catch((err) => {
+      this.showError('Error while creating list', err.message);
+    });
+  }
+
   makeLists() {
-    return Object.values(this.state.lists).map(list => <List key={list.id} boardId={this.boardId} list={list} showError={this.showError}/> );
+    return Object.values(this.state.lists).map(
+      list => <List 
+        key={list.id} 
+        boardId={this.boardId} 
+        list={list} 
+        showError={this.showError}
+      /> 
+    );
   }
 
   render() {
@@ -64,6 +88,12 @@ export default class Board extends React.Component {
 
         <div className="lists">
           {this.makeLists()}
+           
+          <Creator
+            title="Create List" 
+            onSubmitTitle={this.createNewList}
+          />
+          
         </div>
       </>
     );

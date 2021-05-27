@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { updateList } from '../../api/board';
+import { updateList, createCard } from '../../api/board';
+import Creator from '../Creator';
 import EditableTitle from '../EditableTitle';
 
 import './style.css';
@@ -26,6 +27,27 @@ export default class List extends React.Component {
     });
   }
 
+  createNewCard = (title) => {
+    const position = Object.keys(this.state.cards).length;
+    const list_id = this.state.id;
+    createCard(this.boardId, {title, position, list_id})
+    .then((res) => {
+      this.setState((state) => ({
+        cards: {...state.cards, [res.id]: {
+          id: res.id,
+          title: title,
+          description: '',
+          users: [],
+          created_at: res.id,
+          position: position,
+        }}
+      }))
+    })
+    .catch((err) => {
+      this.showError('Error while creating list', err.message);
+    });
+  }
+
   makeCards() {
     return Object.values(this.state.cards).map(card => <h3 key={card.id}> {card.title} </h3>);
   }
@@ -40,6 +62,10 @@ export default class List extends React.Component {
 
         <div>
           {this.makeCards()}
+          <Creator
+            title="Create Card" 
+            onSubmitTitle={this.createNewCard}
+          />
         </div>
       </div>
     );

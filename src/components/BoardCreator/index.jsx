@@ -11,7 +11,7 @@ export default function BoardCreator({title, onChangeFunc, onSubmitFunc, onCance
           value={title}
           onChange={onChangeFunc}
           ></input>
-        <button className="add-form__btn">Add board</button>
+        <button className="btn">Add board</button>
       </form>
     </div>
   )

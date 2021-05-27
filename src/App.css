@@ -10,3 +10,13 @@
   border: none;
   outline-color: var(--bg3);
 }
+
+.btn {
+  margin: 10px;
+  padding: 5px 10px;
+  background-color: var(--bg3);
+  color: var(--fg3);
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}

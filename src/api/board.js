@@ -13,10 +13,14 @@ export const updateList = (boardId, listId, title) => {
   return instance.put(api.boards + boardId + '/list/' + listId, {title});
 }
 
-export const createList = (boardId, title) => {
-  return instance.post(api.boards + boardId + '/list/', {title});
+export const createList = (boardId, payload) => {
+  return instance.post(api.boards + boardId + '/list/', payload);
 }
 
 export const deleteList = (boardId, listId) => {
   return instance.delete(api.boards + boardId + '/list/' + listId);
+}
+
+export const createCard = (boardId, payload) => {
+  return instance.post(api.boards + boardId + '/card/', payload);
 }
