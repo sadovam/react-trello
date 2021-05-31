@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { updateList, createCard } from '../../api/board';
 import { validateTitle } from '../../helpers/validator';
@@ -83,4 +84,14 @@ export default class List extends React.Component {
       </div>
     );
   };
-};
+}
+
+List.propTypes = {
+  showError: PropTypes.func,
+  boardId: PropTypes.number,
+  list: PropTypes.shape({
+    title: PropTypes.string,
+    position: PropTypes.number,
+    cards: PropTypes.array,
+  })
+}

@@ -1,12 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './style.css';
 
 export default class EditableTitle extends React.Component {
   
-  onSubmitTitle = this.props.onSubmitTitle;
-  state = {
-    newTitle: this.props.title,
-    isEditorVisible: false,
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      newTitle: this.props.title,
+      isEditorVisible: false,
+    }
   }
 
   onChangeInput = (event) => {
@@ -15,18 +20,16 @@ export default class EditableTitle extends React.Component {
     });
   }
   
-  onSubmitFunc = () => {
+  onSubmit = () => {
     this.toggleEditor();
-    this.onSubmitTitle(this.state.newTitle);
+    this.props.onSubmitTitle(this.state.newTitle);
   }
 
-  onKeyUpFunc = (event) => {
+  onKeyUp = (event) => {
     if (event.code === 'Enter') {
-      this.onSubmitFunc();
+      this.onSubmit();
     };
   }
-
-  
   
   toggleEditor = () => {
     this.setState(
@@ -49,8 +52,8 @@ export default class EditableTitle extends React.Component {
           placeholder="Type new title here..." 
           value={this.state.newTitle}
           onChange={this.onChangeInput}
-          onBlur={this.onSubmitFunc}
-          onKeyUp={this.onKeyUpFunc}
+          onBlur={this.onSubmit}
+          onKeyUp={this.onKeyUp}
         />
       }
       </div>
@@ -58,3 +61,7 @@ export default class EditableTitle extends React.Component {
   }
   
 };
+
+EditableTitle.propTypes = {
+  onSubmitTitle: PropTypes.func,
+}

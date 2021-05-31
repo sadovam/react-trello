@@ -1,13 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './style.css';
 
 export default class Creator extends React.Component {
   
-  onSubmitTitle = this.props.onSubmitTitle;
-  title = this.props.title;
-  state = {
-    newTitle: '',
-    isEditorVisible: false,
+  constructor() {
+    super();
+  
+    this.state = {
+      newTitle: '',
+      isEditorVisible: false,
+    }
   }
 
   onChangeInput = (event) => {
@@ -16,15 +20,15 @@ export default class Creator extends React.Component {
     });
   }
   
-  onSubmitFunc = () => {
+  onSubmit = () => {
     this.toggleEditor();
-    this.onSubmitTitle(this.state.newTitle);
+    this.props.onSubmitTitle(this.state.newTitle);
     this.setState({newTitle: ''});
   }
 
-  onKeyUpFunc = (event) => {
+  onKeyUp = (event) => {
     if (event.code === 'Enter') {
-      this.onSubmitFunc();
+      this.onSubmit();
     };
   }
   
@@ -49,13 +53,13 @@ export default class Creator extends React.Component {
           placeholder="Type new title here..." 
           value={this.state.newTitle}
           onChange={this.onChangeInput}
-          onBlur={this.onSubmitFunc}
-          onKeyUp={this.onKeyUpFunc}
+          onBlur={this.onSubmit}
+          onKeyUp={this.onKeyUp}
         /> 
       }
       
       <button className="btn" onClick={this.toggleEditor}>
-      { this.state.isEditorVisible ? "Cancel" : this.title }
+      { this.state.isEditorVisible ? "Cancel" : this.props.title }
       </button>
       
       </div>
@@ -63,3 +67,8 @@ export default class Creator extends React.Component {
   }
   
 };
+
+Creator.propTypes = {
+  title: PropTypes.string,
+  onSubmitTitle: PropTypes.func,
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getBoards, createBoard, deleteBoard } from '../../api/home';
 import { validateTitle } from '../../helpers/validator';
 import BoardCreator from '../BoardCreator';
@@ -8,13 +9,16 @@ import './style.css';
 
 export default class Home extends React.Component {
   
-  showError = this.props.showError;
-
-  state = {
-    boards: [],
-    isBoardCreatorVisible: false,
-    newTitle: '',
+  constructor() {
+    super();
+    
+    this.state = {
+      boards: [],
+      isBoardCreatorVisible: false,
+      newTitle: '',
+    }
   }
+  
 
   componentDidMount() {
     getBoards()
@@ -24,7 +28,7 @@ export default class Home extends React.Component {
       })
     })
     .catch((err) => {
-      this.showError('Error while geting boards', err.message);
+      this.props.showError('Error while geting boards', err.message);
     });
   }
 
@@ -47,7 +51,7 @@ export default class Home extends React.Component {
     
     const err = validateTitle(this.state.newTitle);
     if(err) {
-      this.showError(...err);
+      this.props.showError(...err);
       return;
     }
     
@@ -60,7 +64,7 @@ export default class Home extends React.Component {
       }));
     })
     .catch((err) => {
-      this.showError('Error while creating board', err.message);
+      this.props.showError('Error while creating board', err.message);
     });
   }
 
@@ -73,12 +77,12 @@ export default class Home extends React.Component {
       });
     })
     .catch((err) => {
-      this.showError('Error while deleting board', err.message);
+      this.props.showError('Error while deleting board', err.message);
     });
   }
 
   makeBoards() {
-    return this.state.boards.map(board => <BoardTmb key={board.id} board={board} onClickFunc={this.delBoard}/>);
+    return this.state.boards.map(board => <BoardTmb key={board.id} board={board} onClick={this.delBoard}/>);
   }
 
   render() {
@@ -98,13 +102,16 @@ export default class Home extends React.Component {
           this.state.isBoardCreatorVisible && 
           <BoardCreator 
             title={this.state.newTitle} 
-            onChangeFunc={this.changeTitleInput}
-            onSubmitFunc={this.submitNewBoard}
-            onCancelFunc={this.hideBoardCreator}
+            onChange={this.changeTitleInput}
+            onSubmit={this.submitNewBoard}
+            onCancel={this.hideBoardCreator}
           />
         }
       </div>
     );
   }
 };
-    
+
+Home.propTypes = {
+  showError: PropTypes.func,
+}

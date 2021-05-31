@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 import { getBoard, updateBoardTitle, createList } from '../../api/board';
 import List from '../List';
@@ -11,13 +13,16 @@ import { validateTitle } from '../../helpers/validator';
 
 export default class Board extends React.Component {
   
-  boardId = this.props.match.params.id;
-  showError = this.props.showError;
+  constructor(props) {
+    super(props);
+    this.boardId = this.props.match.params.id;
+    this.showError = this.props.showError;
   
-  state = {
-    title: '',
-    lists: {},
-    users: [],
+    this.state = {
+      title: '',
+      lists: {},
+      users: [],
+    }
   }
 
   componentDidMount() {
@@ -112,4 +117,8 @@ export default class Board extends React.Component {
       </>
     );
   };
-};
+}
+
+Board.propTypes = {
+  showError: PropTypes.func,
+}
